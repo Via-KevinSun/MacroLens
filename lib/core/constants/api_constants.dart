@@ -3,11 +3,12 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 class ApiConstants {
   ApiConstants._();
 
-  // No site (web) o pedido vai para o próprio Render (/wb), que reencaminha
-  // para o Banco Mundial e evita o bloqueio CORS do navegador.
-  // No Android (APK) liga-se direto, sem problema.
+  // No site (web) usa o intermediário do Cloudflare; no Android liga direto.
+  static const String _webProxy =
+      'https://macrolens-proxy.kevinsalvadordeanianos.workers.dev/';
+
   static String get baseUrl =>
-      kIsWeb ? '${Uri.base.origin}/wb' : 'https://api.worldbank.org/v2';
+      kIsWeb ? _webProxy : 'https://api.worldbank.org/v2';
 
   static const int perPage = 100;
   static const Duration timeout = Duration(seconds: 15);
